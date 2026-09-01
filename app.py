@@ -2,170 +2,156 @@ import streamlit as st
 import pandas as pd
 import random
 import time
-from agent_engine import run_agentic_workflow_with_llm
+from agent_engine import run_transformation_agent
 
-st.set_page_config(page_title="TrustPay | Mastercard Agentic Commerce", layout="wide", page_icon="💳")
+st.set_page_config(page_title="Accenture Reinvention Co-Pilot", layout="wide", page_icon="⚡")
 
-# Custom CSS styling
 st.markdown("""
     <style>
-    .main-header { font-size: 26px; font-weight: 700; color: #EB001B; margin-bottom: 2px; }
-    .sub-header { font-size: 14px; color: #F79E1B; margin-bottom: 15px; }
-    .reasoning-box { background-color: #f0f2f6; padding: 12px; border-radius: 8px; border-left: 4px solid #F79E1B; margin-top: 10px; font-style: italic; }
+    .main-header { font-size: 26px; font-weight: 700; color: #A100FF; margin-bottom: 2px; }
+    .sub-header { font-size: 14px; color: #4B0082; margin-bottom: 15px; }
+    .reasoning-box { background-color: #f8f9fa; padding: 14px; border-radius: 8px; border-left: 4px solid #A100FF; margin-top: 10px; }
     </style>
 """, unsafe_allow_html=True)
 
-st.markdown('<div class="main-header">Mastercard Agent Pay & KYA Governance Console</div>', unsafe_allow_html=True)
-st.markdown('<div class="sub-header">Tokenized Rails & Verifiable Intent for Autonomous AI Agents</div>', unsafe_allow_html=True)
+st.markdown('<div class="main-header">Accenture Reinvention Co-Pilot | Functional Architecture Suite</div>', unsafe_allow_html=True)
+st.markdown('<div class="sub-header">AI-Accelerated As-Is/To-Be Process Decomposition, Fit-Gap Analysis & Program Governance</div>', unsafe_allow_html=True)
 
-# Initialize Session State
-if "audit_ledger" not in st.session_state:
-    st.session_state.audit_ledger = []
-if "disputes" not in st.session_state:
-    st.session_state.disputes = []
+# Session State
+if "transformation_ledger" not in st.session_state:
+    st.session_state.transformation_ledger = []
+if "cutover_risks" not in st.session_state:
+    st.session_state.cutover_risks = []
 
-# Navigation Tabs
-tab1, tab2 = st.tabs(["💳 Agentic Purchase & Audit Ledger", "⚖️ Dispute & Chargeback Simulator"])
+tab1, tab2 = st.tabs(["🚀 As-Is to To-Be Architecture & Fit-Gap", "🛡️ Program Governance & Risk Ledger"])
 
 with tab1:
-    # Sidebar: Governance & LLM Config
-    st.sidebar.header("🛡️ Agent Identity & Governance")
-    groq_api_key = st.sidebar.text_input("Groq API Key (Free LLM)", type="password", placeholder="gsk_...")
-    st.sidebar.caption("Powered by **Llama 3.3 70B Versatile** via Groq")
+    st.sidebar.header("⚙️ Architecture & Governance Controls")
+    groq_api_key = st.sidebar.text_input("Groq API Key (Optional)", type="password", placeholder="gsk_...")
+    st.sidebar.caption("Engine: **Llama 3.3 70B Versatile** via Groq")
     
-    agent_id = st.sidebar.text_input("Agent Identity (KYA ID)", value="AGT-MC-2026-X8", key="tab1_agent_id")
-    delegated_owner = st.sidebar.text_input("Delegated Human Principal", value="Cardholder: C. Nigam", key="tab1_owner")
-    spending_cap = st.sidebar.slider("Delegated Spend Limit ($)", min_value=10.0, max_value=300.0, value=100.0, step=5.0, key="tab1_slider")
+    target_platform = st.sidebar.selectbox(
+        "Target Enterprise Platform",
+        ["Private Cloud Core (Red Hat / OpenShift)", "Hybrid Cloud Microservices", "Mainframe Modernization Layer", "Databricks & Multi-Cloud Lakehouse"]
+    )
+    budget_milestone = st.sidebar.slider("Program Milestone Allocation ($M)", min_value=0.5, max_value=10.0, value=2.5, step=0.5)
 
     st.sidebar.markdown("---")
-    st.sidebar.caption("Mastercard Tokenization Rails: **Active (MDES-Ready)**")
-    st.sidebar.caption("Protocol: **Know Your Agent (KYA) v2.1**")
+    st.sidebar.caption("Accenture Methodology: **Reinvention Services v4.2**")
+    st.sidebar.caption("Career Track: **Business & Functional Architect (CL10)**")
 
-    # Main Input
-    user_prompt = st.text_input(
-        "Enter Natural Language Purchase Intent:", 
-        value="Find a dermatologist-recommended anti-dandruff shampoo with tea tree oil under $40."
+    # User Input
+    user_process = st.text_area(
+        "Enter Current-State (As-Is) Process or Business Requirement:",
+        value="Legacy core banking batch system requires 8 hours of overnight manual reconciliation for high-value CASA settlements, delaying corporate account liquidity reporting.",
+        height=90
     )
 
-    col_btn, col_clear = st.columns([2, 8])
+    col_btn, col_clear = st.columns([3, 7])
     with col_btn:
-        execute_clicked = st.button("🚀 Execute Autonomous Purchase", type="primary")
+        run_clicked = st.button("⚡ Generate To-Be Architecture & Fit-Gap", type="primary")
     with col_clear:
-        if st.button("🗑️ Clear Audit Ledger"):
-            st.session_state.audit_ledger = []
+        if st.button("🗑️ Clear Architecture Ledger"):
+            st.session_state.transformation_ledger = []
             st.rerun()
 
-    if execute_clicked:
-        with st.status("Executing Agentic Pipeline & Mastercard Guardrails...", expanded=True) as status:
-            st.write("🧠 **LLM Agent Reasoning:** Contacting Llama-3.3-70B to evaluate product catalogs & intent match...")
-            
-            res = run_agentic_workflow_with_llm(
-                user_intent=user_prompt, 
-                max_budget=spending_cap, 
-                agent_id=agent_id, 
+    if run_clicked:
+        with st.status("Decomposing Requirements & Formulating To-Be Architecture...", expanded=True) as status:
+            st.write("🔍 **Requirement & Bottleneck Decomposition:** Parsing legacy workflow constraints...")
+            res = run_transformation_agent(
+                business_use_case=user_process,
+                target_platform=target_platform,
+                budget_milestone_m=budget_milestone,
                 groq_api_key=groq_api_key
             )
-            time.sleep(0.6)
+            time.sleep(0.5)
             
-            st.write(f"⚖️ **KYA Risk Evaluator:** Checking trust credentials against spending cap (${spending_cap:.2f})...")
-            time.sleep(0.6)
-            
-            if res.is_approved:
-                st.write(f"🔒 **Mastercard Token Engine:** Minting single-use Agentic Token `{res.token_id}`...")
-                time.sleep(0.6)
-                st.write("⚡ **Settlement Network:** Verifying cryptogram with merchant acquirer...")
-                time.sleep(0.4)
-                status.update(label="Transaction Authorized & Settled on Rails!", state="complete", expanded=False)
-            else:
-                status.update(label="Transaction Blocked by Guardrail Policy", state="error", expanded=False)
+            st.write(f"📐 **Fit-Gap & Platform Mapping:** Aligning capabilities with {target_platform}...")
+            time.sleep(0.5)
+            st.write("📊 **Executive Storytelling Engine:** Synthesizing C-suite value proposition & risk posture...")
+            time.sleep(0.4)
+            status.update(label="Functional Architecture & Executive Readout Ready!", state="complete", expanded=False)
 
-        # Log into Ledger
-        st.session_state.audit_ledger.insert(0, {
-            "ID": f"TXN-{len(st.session_state.audit_ledger)+101}",
+        # Log to ledger
+        st.session_state.transformation_ledger.insert(0, {
+            "Initiative ID": res.initiative_id,
             "Timestamp": res.timestamp,
-            "Agent ID": agent_id,
-            "Item": res.selected_item["name"],
-            "Price ($)": res.selected_item['price'],
-            "KYA Score": f"{res.kya_trust_score}/100",
-            "Decision": "APPROVED" if res.is_approved else "DECLINED",
-            "Token / Cryptogram": res.token_id if res.is_approved else res.rejection_reason,
-            "Cryptogram Hash": res.cryptogram if res.is_approved else "N/A"
+            "Target Platform": res.target_platform,
+            "Complexity": res.complexity_level,
+            "Transformation Score": f"{res.transformation_score}/100",
+            "Governance Status": res.governance_status,
+            "Fit-Gap Summary": res.fit_gap_summary,
+            "Executive Readout": res.executive_readout
         })
 
-        # Summary Cards
-        st.subheader("Latest Execution Result")
+        # Summary Metrics
+        st.subheader("Transformation Blueprint & Readout")
         col1, col2, col3 = st.columns(3)
         with col1:
-            st.metric("Selected Item (LLM Match)", res.selected_item["name"])
-            st.metric("Price", f"${res.selected_item['price']:.2f}")
+            st.metric("Initiative ID", res.initiative_id)
+            st.metric("Transformation Readiness", f"{res.transformation_score}/100")
         with col2:
-            st.metric("KYA Trust Score", f"{res.kya_trust_score}/100")
-            st.metric("Governance Decision", "APPROVED" if res.is_approved else "REJECTED")
+            st.metric("Modernization Complexity", res.complexity_level)
+            st.metric("Governance Decision", res.governance_status)
         with col3:
-            st.metric("Mastercard Token ID", res.token_id if res.is_approved else "N/A")
-            st.metric("Settlement Status", "Settled on Rails" if res.is_approved else "Declined")
+            st.metric("Target Platform", res.target_platform.split()[0])
+            st.metric("Delivery Mode", "Agile Sprints (CL10 Managed)")
 
-        # Agent Reasoning Display
-        st.markdown(f'<div class="reasoning-box">💡 <b>Agent Thought Process:</b> {res.agent_reasoning}</div>', unsafe_allow_html=True)
+        # Detailed cards
+        st.markdown(f"**As-Is Operational Bottleneck:** {res.as_is_bottleneck}")
+        st.markdown(f"**To-Be Future-State Design:** {res.to_be_architecture}")
+        st.markdown(f"**Fit-Gap Analysis:** {res.fit_gap_summary}")
+        
+        st.markdown(f'<div class="reasoning-box">💼 <b>Executive Leadership Summary:</b><br>{res.executive_readout}<br><br><small><b>Functional Architecture Reasoning:</b> {res.architect_reasoning}</small></div>', unsafe_allow_html=True)
 
-        if not res.is_approved:
-            st.error(f"**Policy Block:** {res.rejection_reason}")
-        else:
-            st.success(f"**Proof of Intent Verified:** Single-use cryptogram `{res.cryptogram}` successfully cleared.")
-
-    # Live Audit Ledger Table
+    # Historical Table
     st.markdown("---")
-    st.subheader("📜 Real-Time Network Audit Ledger")
-    if len(st.session_state.audit_ledger) > 0:
-        df_ledger = pd.DataFrame(st.session_state.audit_ledger)
+    st.subheader("📜 Enterprise Transformation Roadmap & History")
+    if len(st.session_state.transformation_ledger) > 0:
+        df_ledger = pd.DataFrame(st.session_state.transformation_ledger)
         st.dataframe(df_ledger, use_container_width=True)
     else:
-        st.info("No transactions logged yet. Run a purchase above to generate audit entries.")
+        st.info("No transformation assessments logged yet. Run a workflow above to populate the ledger.")
 
 with tab2:
-    st.subheader("⚖️ Mastercard Agentic Dispute & Chargeback Simulator")
-    st.markdown("If a human principal claims an autonomous agent violated instructions, exceeded behavioral intent, or made an unauthorized purchase, initiate a chargeback claim here.")
+    st.subheader("🛡️ Cutover Readiness & Program Risk Register")
+    st.markdown("Manage migration cutover risks, data reconciliation dependencies, and platform change management tracking.")
 
-    approved_txns = [t for t in st.session_state.audit_ledger if t["Decision"] == "APPROVED"]
-
-    if len(approved_txns) == 0:
-        st.warning("No approved transactions available to dispute. Please execute a successful purchase in Tab 1 first.")
+    if len(st.session_state.transformation_ledger) == 0:
+        st.warning("Generate at least one transformation assessment in Tab 1 to track cutover risks.")
     else:
-        txn_options = {f"{t['ID']} - {t['Item']} (${t['Price ($)']:.2f}) [Token: {t['Token / Cryptogram']}]": t for t in approved_txns}
-        selected_txn_label = st.selectbox("Select Transaction to Dispute:", list(txn_options.keys()))
-        selected_txn = txn_options[selected_txn_label]
+        init_options = {f"{t['Initiative ID']} - {t['Target Platform']} ({t['Complexity']} Complexity)": t for t in st.session_state.transformation_ledger}
+        selected_label = st.selectbox("Select Transformation Initiative:", list(init_options.keys()))
+        selected_init = init_options[selected_label]
 
-        dispute_reason = st.selectbox("Select Dispute / Chargeback Reason Code:", [
-            "RC-44: Agent Intent Mismatch (Purchased item outside user prompt instructions)",
-            "RC-48: Unauthorized Delegation Bounds (Exceeded contextual policy limit)",
-            "RC-52: Merchant Fraud / Non-Delivery by Agentic API"
+        risk_category = st.selectbox("Select Cutover Risk Category:", [
+            "DATA-MIG: Data reconciliation & legacy field mapping discrepancies",
+            "SEC-RBAC: Role-based access control and security compliance gap",
+            "PERF-LAT: Latency during cutover parallel run phase",
+            "CHG-ADOPT: User change resistance and training lag"
         ])
 
-        dispute_evidence = st.text_area("Human Principal Statement / Evidence Notes:", value="Agent misinterpreted prompt parameters and purchased a higher-tier item without explicit secondary confirmation.")
+        mitigation_strategy = st.text_area("Proposed Mitigation & Governance Action Plan:", value="Execute automated parallel-run validation for 14 days and establish automated reconciliation triggers before full cutover.")
 
-        if st.button("🚨 File Agentic Chargeback Claim", type="primary"):
-            with st.spinner("Submitting chargeback claim to Mastercard Dispute Resolution (MDR)..."):
-                time.sleep(1.0)
-                
-            rand_suffix = random.randint(1000, 9999)
-            claim_id = f"CHGBK-{rand_suffix}-{len(st.session_state.disputes)+1}"
+        if st.button("📌 Register Cutover Governance Action", type="primary"):
+            with st.spinner("Updating program governance register..."):
+                time.sleep(0.8)
             
-            dispute_record = {
-                "Claim ID": claim_id,
-                "Txn ID": selected_txn["ID"],
-                "Item": selected_txn["Item"],
-                "Amount": f"${selected_txn['Price ($)']:.2f}",
-                "Reason": dispute_reason.split(":")[0],
-                "Cryptogram Verified": selected_txn["Cryptogram Hash"],
-                "Status": "PROVISIONAL CREDIT ISSUED (Under Arbitration)"
+            risk_id = f"RSK-{random.randint(100, 999)}"
+            risk_entry = {
+                "Risk ID": risk_id,
+                "Initiative ID": selected_init["Initiative ID"],
+                "Category": risk_category.split(":")[0],
+                "Mitigation Strategy": mitigation_strategy,
+                "Status": "MITIGATION IN PROGRESS"
             }
-            st.session_state.disputes.insert(0, dispute_record)
-            st.success(f"Chargeback successfully filed! Claim ID: `{claim_id}`. Provisional credit issued to cardholder.")
+            st.session_state.cutover_risks.insert(0, risk_entry)
+            st.success(f"Risk `{risk_id}` successfully registered in Program Governance Register.")
 
         st.markdown("---")
-        st.subheader("📂 Active Dispute & Chargeback Registry")
-        if len(st.session_state.disputes) > 0:
-            df_disputes = pd.DataFrame(st.session_state.disputes)
-            st.dataframe(df_disputes, use_container_width=True)
+        st.subheader("📂 Program Cutover & Risk Matrix")
+        if len(st.session_state.cutover_risks) > 0:
+            df_risks = pd.DataFrame(st.session_state.cutover_risks)
+            st.dataframe(df_risks, use_container_width=True)
         else:
-            st.info("No active disputes filed.")
+            st.info("No active risk items logged.")
