@@ -42,10 +42,10 @@ with tab1:
 
     # User Input
     user_process = st.text_area(
-        "Enter Current-State (As-Is) Process or Business Requirement:",
-        value="Legacy core banking batch system requires 8 hours of overnight manual reconciliation for high-value CASA settlements, delaying corporate account liquidity reporting.",
-        height=90
-    )
+    "Current Business Problem (As-Is State):",
+    value="During my tenure at Canara Bank, rural CASA onboarding and HNI client documentation required manual KYC verification and physical document routing. This created a 2-3 day lag in account activation, high error rates, and hindered our digital banking outreach targets.",
+    height=110
+)
 
     col_btn, col_clear = st.columns([3, 7])
     with col_btn:
