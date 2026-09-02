@@ -51,7 +51,7 @@ def process_circular_query(domain: str, query: str, api_key: str) -> dict:
         """
         
         completion = client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
+            model="llama3-70b-8192",
             messages=[
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": query}
