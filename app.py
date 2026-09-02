@@ -20,13 +20,27 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+# Retrieve API key automatically from Streamlit Secrets (fallback to sidebar input if local)
+api_key = ""
+try:
+    if "GROQ_API_KEY" in st.secrets:
+        api_key = st.secrets["GROQ_API_KEY"]
+except Exception:
+    pass
+
 with st.sidebar:
     st.image("https://cdn-icons-png.flaticon.com/512/2830/2830284.png", width=60)
     st.markdown("### **Staff Portal**")
     st.markdown("**User:** C. Nigam (Officer)")
     st.markdown("**Branch:** Bhopal Main (0214)")
     st.markdown("**Terminal:** T-8842")
-    api_key = st.text_input("🔑 Groq API Key:", type="password")
+    
+    # Only show manual input box if secret isn't configured
+    if not api_key:
+        api_key = st.text_input("🔑 Groq API Key:", type="password")
+    else:
+        st.success("🔒 Enterprise Key Loaded")
+        
     st.markdown("---")
     st.markdown("🟢 **System Status:** Online")
     st.markdown("🔗 **CBS Link:** Connected")
@@ -52,14 +66,24 @@ col1, col2 = st.columns([1, 2])
 with col1:
     domain = st.selectbox(
         "Knowledge Domain:", 
-        ["Wealth, Savings & Retirement", "MSME, Business & Manufacturing Loans", "Operations, NRI & Exceptions"]
+        [
+            "Wealth, Savings & Retirement", 
+            "Micro-Insurance & Social Security", 
+            "MSME, Business & Manufacturing Loans",
+            "Education & Agriculture",
+            "Operations, NRI & Exceptions"
+        ]
     )
     
 with col2:
     if domain == "Wealth, Savings & Retirement":
         default_q = "What is the eligibility criteria and withdrawal rule for EPF?"
+    elif domain == "Micro-Insurance & Social Security":
+        default_q = "What is the auto-debit premium amount and age limit for PMJJBY?"
     elif domain == "MSME, Business & Manufacturing Loans":
-        default_q = "What is the age limit under the Mudra scheme?"
+        default_q = "Is there any collateral requirement to get a loan for my small business?"
+    elif domain == "Education & Agriculture":
+        default_q = "What is the Prompt Repayment Incentive (PRI) for a Kisan Credit Card (KCC)?"
     else:
         default_q = "How do I resolve a DBT NPCI mandate failure?"
         
