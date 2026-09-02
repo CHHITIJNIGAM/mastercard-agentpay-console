@@ -51,7 +51,7 @@ def process_circular_query(domain: str, query: str, api_key: str) -> dict:
         """
         
         completion = client.chat.completions.create(
-            model="gemma2-9b-it",
+            model="openai/gpt-oss-120b",
             messages=[
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": query}
