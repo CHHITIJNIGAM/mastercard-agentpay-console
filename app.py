@@ -5,7 +5,6 @@ from agent_engine import process_circular_query
 
 st.set_page_config(page_title="Internal GenAI Copilot", layout="wide", initial_sidebar_state="expanded")
 
-# CSS styling for Enterprise Banking Dashboard
 st.markdown("""
     <style>
     .stApp { background-color: #f4f7f6; color: #333333; }
@@ -21,46 +20,31 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Sidebar (Simulating internal bank portal identity)
 with st.sidebar:
     st.image("https://cdn-icons-png.flaticon.com/512/2830/2830284.png", width=60)
     st.markdown("### **Staff Portal**")
     st.markdown("**User:** C. Nigam (Officer)")
     st.markdown("**Branch:** Bhopal Main (0214)")
     st.markdown("**Terminal:** T-8842")
+    api_key = st.text_input("🔑 Groq API Key:", type="password")
     st.markdown("---")
     st.markdown("🟢 **System Status:** Online")
     st.markdown("🔗 **CBS Link:** Connected")
-    st.markdown("📚 **Vector Database:** Synced (v2.4)")
+    st.markdown("📚 **Vector Database:** Synced (v2.5)")
     st.markdown("---")
     st.caption(f"Session Active: {datetime.datetime.now().strftime('%d %b %Y, %H:%M')}")
 
-# Main Header
 st.markdown('<div class="main-header">🏦 Enterprise GenAI Operations Copilot</div>', unsafe_allow_html=True)
 
-# Top Metrics Row (Simulating system telemetry)
 st.markdown("""
     <div class="metric-container">
-        <div class="metric-box">
-            <div class="metric-title">Active Circulars</div>
-            <div class="metric-value">5,412</div>
-        </div>
-        <div class="metric-box">
-            <div class="metric-title">Branch Queries Today</div>
-            <div class="metric-value">124</div>
-        </div>
-        <div class="metric-box">
-            <div class="metric-title">Avg Retrieval SLA</div>
-            <div class="metric-value">1.2s</div>
-        </div>
-        <div class="metric-box">
-            <div class="metric-title">AI Accuracy Score</div>
-            <div class="metric-value">98.4%</div>
-        </div>
+        <div class="metric-box"><div class="metric-title">Active Circulars</div><div class="metric-value">5,412</div></div>
+        <div class="metric-box"><div class="metric-title">Branch Queries Today</div><div class="metric-value">124</div></div>
+        <div class="metric-box"><div class="metric-title">Avg Retrieval SLA</div><div class="metric-value">0.8s</div></div>
+        <div class="metric-box"><div class="metric-title">AI Accuracy Score</div><div class="metric-value">99.1%</div></div>
     </div>
 """, unsafe_allow_html=True)
 
-# Query Section
 st.markdown('<div class="query-section">', unsafe_allow_html=True)
 st.subheader("🔍 Search Internal Knowledge Base")
 
@@ -68,37 +52,26 @@ col1, col2 = st.columns([1, 2])
 with col1:
     domain = st.selectbox(
         "Knowledge Domain:", 
-        [
-            "Wealth, Savings & Retirement", 
-            "Micro-Insurance & Social Security", 
-            "MSME, Business & Manufacturing Loans",
-            "Education & Agriculture",
-            "Operations, NRI & Exceptions"
-        ]
+        ["Wealth, Savings & Retirement", "MSME, Business & Manufacturing Loans", "Operations, NRI & Exceptions"]
     )
     
 with col2:
     if domain == "Wealth, Savings & Retirement":
         default_q = "What is the eligibility criteria and withdrawal rule for EPF?"
-    elif domain == "Micro-Insurance & Social Security":
-        default_q = "What is the auto-debit premium amount and age limit for PMJJBY?"
     elif domain == "MSME, Business & Manufacturing Loans":
-        default_q = "What are the loan limits under the Mudra scheme (Shishu, Kishore, Tarun)?"
-    elif domain == "Education & Agriculture":
-        default_q = "What is the Prompt Repayment Incentive (PRI) for a Kisan Credit Card (KCC)?"
+        default_q = "What is the age limit under the Mudra scheme?"
     else:
-        default_q = "What documentation is required to open an NRE account with FATCA compliance?"
+        default_q = "How do I resolve a DBT NPCI mandate failure?"
         
     user_query = st.text_area("Enter operational question or exception:", value=default_q, height=85)
 
 execute = st.button("⚡ Execute AI Semantic Search", type="primary", use_container_width=True)
 st.markdown('</div>', unsafe_allow_html=True)
 
-# Results Section
 if execute:
-    with st.spinner("Accessing Core Vector Database and parsing master circulars..."):
+    with st.spinner("Executing dynamic RAG pipeline..."):
         time.sleep(1.2)
-        res = process_circular_query(domain, user_query)
+        res = process_circular_query(domain, user_query, api_key)
         
     st.markdown("### 📊 AI Resolution & Architecture Insights")
     
@@ -122,4 +95,4 @@ if execute:
         </div>
     """, unsafe_allow_html=True)
 
-st.markdown('<div class="footer-text">Confidential & Internal Use Only • Enterprise AI Core v2.4 • Connected to CBS Environment</div>', unsafe_allow_html=True)
+st.markdown('<div class="footer-text">Confidential & Internal Use Only • Enterprise AI Core v2.5 • Connected to CBS Environment</div>', unsafe_allow_html=True)
